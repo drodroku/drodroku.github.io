@@ -57,7 +57,6 @@ asr.onresult = function(event){
     let output_not_final = '';
     if (event.results[event.resultIndex].isFinal) { // 結果が確定（Final）のとき
         asr.abort(); // 音声認識を停止
-        asr.stop();
 
         // HTTPリクエストの準備
         var postdata = {
@@ -92,6 +91,9 @@ asr.onresult = function(event){
 
                     // 出発地点と到着地点の座標を取得
                     showAddress1();
+                } else {
+                    asr.start();  // 音声認識を再開
+                }
             }
         };
         // HTTPリクエストの実行
@@ -215,15 +217,17 @@ function showResult( result ) {
 	}
 	output += answer1 + "から" + answer2 + ' => ' + tts.text + '<br>';
     resultOutput.innerHTML = output;
-    speechSynthesis.speak(tts); // 距離を音声で読み上げる
     playAudio(audioName);
+    speechSynthesis.speak(tts); // 距離を音声で読み上げる
+    tts.onend = function() {
+      asr.start();
+    };
   }
 }
 
 function playAudio(audioFileName) {
   const audio = new Audio(audioFileName);
   audio.play();
-  asr.start();  // 音声認識を再開
 }
 
 </script>
