@@ -57,6 +57,7 @@ asr.onresult = function(event){
     let output_not_final = '';
     if (event.results[event.resultIndex].isFinal) { // 結果が確定（Final）のとき
         asr.abort(); // 音声認識を停止
+        asr.stop();
 
         // HTTPリクエストの準備
         var postdata = {
@@ -91,11 +92,6 @@ asr.onresult = function(event){
 
                     // 出発地点と到着地点の座標を取得
                     showAddress1();
-                    asr.abort();
-    				asr.stop();
-                } else {
-                    asr.start();  // 音声認識を再開
-                }
             }
         };
         // HTTPリクエストの実行
