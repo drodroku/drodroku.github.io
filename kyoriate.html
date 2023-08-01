@@ -91,6 +91,8 @@ asr.onresult = function(event){
 
                     // 出発地点と到着地点の座標を取得
                     showAddress1();
+                    asr.abort();
+    				asr.stop();
                 } else {
                     asr.start();  // 音声認識を再開
                 }
